@@ -8,7 +8,6 @@ const fs = require( 'fs'),
 const filesListRu = require('./orderFiles/ru');
 /*
     TODO:
-      * добавить передачу порядка файлов для генерации
       * в генерированный html файл сохранить utf только для русского и англиского.
 */
 
