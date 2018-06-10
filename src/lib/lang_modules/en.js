@@ -13,13 +13,15 @@ const filesListEn = require('../orderFiles/en');
   @param { pathBuildHtml } - файл для презентации блоков и их последовательности в формате *.html
   @param { pathBuildReadme } - окончательный README файл проекта с внесенными вами правками в блоки.
 */
-const langModule = new Gen(
-                        path.src.source.en,
-                        path.src.docs.en,
-                        path.src.man.en ,
-                        path.src.order.en,
-                        path.build.md.en,
-                        path.build.html.en,
-                        path.build.readme.en);
+const pathConfig = [
+  path.src.source.en,
+  path.src.docs.en,
+  path.src.man.en,
+  path.src.order.en,
+  path.build.md.en,
+  path.build.html.en,
+  path.build.readme.en];
+
+const langModule = new Gen(pathConfig);
 
 module.exports = langModule;

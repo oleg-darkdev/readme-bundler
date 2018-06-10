@@ -1,4 +1,4 @@
-const Gpl = require('../gpl');
+const Gen = require('../gen');
 // пути для генерации файлов
 const path = require('../path');
 // порядок очереди файлов при генерации файла README
@@ -13,13 +13,15 @@ const filesListPl = require('../orderFiles/pl');
   @param { pathBuildHtml } - файл для презентации блоков и их последовательности в формате *.html
   @param { pathBuildReadme } - окончательный README файл проекта с внесенными вами правками в блоки.
 */
-const langModule = new Gpl(
-                    path.src.source.pl,
-                    path.src.docs.pl,
-                    path.src.man.pl,
-                    path.src.order.pl,
-                    path.build.md.pl,
-                    path.build.html.pl,
-                    path.build.readme.pl);
+const pathConfig = [
+  path.src.source.pl,
+  path.src.docs.pl,
+  path.src.man.pl,
+  path.src.order.pl,
+  path.build.md.pl,
+  path.build.html.pl,
+  path.build.readme.pl];
+
+const langModule = new Gen(pathConfig);
 
 module.exports = langModule;

@@ -23,14 +23,15 @@ const filesListRu = require('./orderFiles/ru');
   @param { pathBuildReadme } - окончательный README файл проекта с внесенными вами правками в блоки.
 */
 class Gen {
-  constructor(pathSrcSource, pathSrcDocs, pathSrcMan, pathSrcOrder, pathBuildMd, pathBuildHtml, pathBuildReadme) {
-    this.pathSrcSource = pathSrcSource;
-    this.pathSrcDocs = pathSrcDocs;
-    this.pathSrcMan = pathSrcMan;
-    this.pathSrcOrder = pathSrcOrder,
-    this.pathBuildMd = pathBuildMd;
-    this.pathBuildHtml = pathBuildHtml;
-    this.pathBuildReadme = pathBuildReadme;
+  // constructor(pathSrcSource, pathSrcDocs, pathSrcMan, pathSrcOrder, pathBuildMd, pathBuildHtml, pathBuildReadme) {
+  constructor(arrayPaths) {
+    this.pathSrcSource = arrayPaths[0];
+    this.pathSrcDocs =  arrayPaths[1];
+    this.pathSrcMan =  arrayPaths[2];
+    this.pathSrcOrder =  arrayPaths[3];
+    this.pathBuildMd =  arrayPaths[4];
+    this.pathBuildHtml =  arrayPaths[5];
+    this.pathBuildReadme =  arrayPaths[6];
   }
   /*
     @description Обновление файлов до актуально версии в директорию docs
