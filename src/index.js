@@ -40,7 +40,7 @@ const cl = require('node-cl-log'),
   fs = require('fs');
 
 const pathDirLanguageModules = './src/lib/lang_modules/';
-const pathDocsDir = './docs/';
+const pathDocsDir = './docs/RU/';
 
 let [generationType = '-r', language = 'en'] = [process.argv[2], process.argv[3].slice(1, 3)];
 
