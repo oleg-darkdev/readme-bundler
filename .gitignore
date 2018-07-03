@@ -1,4 +1,9 @@
+<<<<<<< HEAD
 docs/RU
+=======
+index-debug.js
+index.js.map
+>>>>>>> dev
 npm-debug.log*
 
 # Logs
@@ -34,3 +39,4 @@ node_modules
 # Source editor backup files
 *~
 *.swp
+.vscode/
