@@ -1,15 +1,21 @@
 /*
   @description Модуль для сборки файлов для создания модулей на разных языках.
 */
-const fs = require( 'fs'),
-      md2html = require('node-m2h');
-      cl = require('node-cl-log');
+const fs = require('fs'),
+  md2html = require('node-m2h');
+  cl = require('node-cl-log');
 
 const filesListRu = require('./orderFiles/ru');
+
+/* const paths = require('./path'),
+      filesListRu = require(paths.src.order.ru); */
 /*
     TODO:
       * в генерированный html файл сохранить utf только для русского и англиского.
 */
+
+
+
 
 /*
   @description
@@ -25,31 +31,30 @@ class Gen {
   // constructor(pathSrcSource, pathSrcDocs, pathSrcMan, pathSrcOrder, pathBuildMd, pathBuildHtml, pathBuildReadme) {
   constructor(arrayPaths) {
     this.pathSrcSource = arrayPaths[0];
-    this.pathSrcDocs =  arrayPaths[1];
-    this.pathSrcMan =  arrayPaths[2];
-    this.pathSrcOrder =  arrayPaths[3];
-    this.pathBuildMd =  arrayPaths[4];
-    this.pathBuildHtml =  arrayPaths[5];
-    this.pathBuildReadme =  arrayPaths[6];
+    this.pathSrcDocs = arrayPaths[1];
+    this.pathSrcMan = arrayPaths[2];
+    this.pathSrcOrder = arrayPaths[3];
+    this.pathBuildMd = arrayPaths[4];
+    this.pathBuildHtml = arrayPaths[5];
+    this.pathBuildReadme = arrayPaths[6];
   }
   /*
     @description Обновление файлов до актуально версии в директорию docs
   */
   genDocs() {
     const source = this.pathSrcSource,
-          docs = this.pathSrcDocs;
+      docs = this.pathSrcDocs;
 
     fs.readdir(source, function (err, items) {
       // cl.log(items);
-
       items.forEach(file => {
         fs.copyFileSync(source + file, docs + file, (err) => {
           if (err) throw err;
-          // cl.gre(`${file} was copied `);
+          //if (!err) cl.gre(`${file} was copied `);
         });
       }); // end forEach
     });
-    // cl.gre('end')
+    cl.gre('end genDocs')
   } // end genDocs
   /*
     @description Генерация наглядного примера из каких блоков, в какой последовательности
@@ -57,9 +62,9 @@ class Gen {
   */
   genHtml() {
     const sourceMan = this.pathSrcMan,
-          htmlArr = [],
-          buildMd = this.pathBuildMd,
-          buildHtml = this.pathBuildHtml;
+      htmlArr = [],
+      buildMd = this.pathBuildMd,
+      buildHtml = this.pathBuildHtml;
 
     fs.readdir(sourceMan, function (err, items) {
       // create new array with elements in the necessary order
@@ -98,8 +103,8 @@ class Gen {
   */
   genReadme() {
     const readmeArr = [],
-          srcDocs = this.pathSrcDocs,
-          buildReadme = this.pathBuildReadme;
+      srcDocs = this.pathSrcDocs,
+      buildReadme = this.pathBuildReadme;
 
     fs.readdir(srcDocs, function (err, items) {
       // create new array with elements in the necessary order
@@ -107,11 +112,17 @@ class Gen {
         readmeArr.push(items[items.indexOf(el)])
       });
       // cl.log(readmeArr);
+      // cl.log(' архив с файлами по очереди заполнен')
+
+
       readmeArr.forEach(el => {
-        fs.readFile(srcDocs + el, function (err, data) {
+        // cl.log(' работа с архивом ')
+
+        fs.readFileSync(srcDocs + el, function (err, data) {
           if (err) {
             cl.log(err);
-          } else {
+          }
+          else {
             // cl.log(data); // содержимое файла
             fs.open(buildReadme, "w+", function (err, fileHandle) {
               if (!err) {

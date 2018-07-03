@@ -12,28 +12,28 @@ const path = {
   src: {
       source: {
         ru: './src/data/RU/content/',
-        BY: './src/data/BY/content/',
+        by: './src/data/BY/content/',
         ua: './src/data/UA/content/',
         pl: './src/data/PL/content/',
         en: './src/data/EN/content/'
       },
       man: {
         ru: './src/data/RU/description/',
-        BY: './src/data/BY/description/',
+        by: './src/data/BY/description/',
         ua: './src/data/UA/description/',
         pl: './src/data/PL/description/',
         en: './src/data/EN/description/'
       },
       order: {
         ru: './src/lib/orderFiles/ru.js',
-        BY: './src/lib/orderFiles/by.js',
+        by: './src/lib/orderFiles/by.js',
         ua: './src/lib/orderFiles/ua.js',
         pl: './src/lib/orderFiles/pl.js',
         en: './src/lib/orderFiles/en.js'
       },
       docs: {
-        ru: './docs/RU/',
-        BY:'./docs/BY/',
+        ru: './docs/',
+        by:'./docs/BY/',
         ua: './docs/UA/',
         pl: './docs/PL/',
         en: './docs/EN/'
@@ -42,21 +42,21 @@ const path = {
   build: {
       readme: {
         ru: './README[RU].md',
-        BY: './README[BY].md',
+        by: './README[BY].md',
         ua: './README[UA].md',
         pl: './README[PL].md',
         en: './README[EN].md'
       },
       html: {
         ru: './docs/description[RU].html',
-        BY: './docs/description[BY].html',
+        by: './docs/description[BY].html',
         ua: './docs/description[UA].html',
         pl: './docs/description[PL].html',
         en: './docs/description[EN].html'
       },
       md: {
         ru: './docs/description[RU].md',
-        BY: './docs/description[BY].md',
+        by: './docs/description[BY].md',
         ua: './docs/description[UA].md',
         pl: './docs/description[PL].md',
         en: './docs/description[EN].md'

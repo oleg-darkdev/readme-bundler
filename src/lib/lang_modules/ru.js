@@ -17,6 +17,7 @@ const pathConfig = [
   path.src.source.ru,
   path.src.docs.ru,
   path.src.man.ru ,
+  path.src.order.ru,
   path.build.md.ru,
   path.build.html.ru,
   path.build.readme.ru];
