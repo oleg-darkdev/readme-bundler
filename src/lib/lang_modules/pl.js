@@ -1,17 +1,17 @@
 const Gen = require('../gen');
-// пути для генерации файлов
+// пути для генерации шаблонов документов
 const path = require('../path');
-// порядок очереди файлов при генерации файла README
+// порядок очереди шаблонов документов при генерации файла README
 const filesListPl = require('../orderFiles/pl');
 /*
   @description Предназначен для сборки файлов с суффиксом [PL] в названии файла.
-  @param { pathSrcSource } - исходный код блоков библиотеки
-  @param { pathSrcDocs } - путь куда они будут синхронизированы
-  @param { pathSrcMan } - описание назначения исходных блоков библиотеки
-  @param { pathOrderFiles } - порядок файлов для сборки файла README
-  @param { pathBuildMd } - файл для презентации блоков и их последовательности в формате *.md
-  @param { pathBuildHtml } - файл для презентации блоков и их последовательности в формате *.html
-  @param { pathBuildReadme } - окончательный README файл проекта с внесенными вами правками в блоки.
+  @property { string } pathSrcSource - исходные шаблоны документов
+  @property { string } pathSrcDocs - путь куда будут синхронизированы шаблоны документов
+  @property { string } pathSrcMan - описание шаблонов документов (их назначения, функций, особенностей)
+  @property { string } pathOrderFiles - порядок файлов для сборки файла README
+  @property { string } pathBuildMd - файл для презентации внешнего вида документов и их последовательности в формате *.md
+  @property { string } pathBuildHtml - файл для презентации  внешнего вида документов и их последовательности в формате *.html
+  @property { string } pathBuildReadme - окончательный README файл проекта с внесенными вами правками в шаблоны документов в дирректории "docs/" текущего языкового модуля
 */
 const pathConfig = [
   path.src.source.pl,
@@ -20,7 +20,8 @@ const pathConfig = [
   path.src.order.pl,
   path.build.md.pl,
   path.build.html.pl,
-  path.build.readme.pl];
+  path.build.readme.pl
+];
 
 const langModule = new Gen(pathConfig);
 
