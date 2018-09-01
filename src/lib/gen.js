@@ -1,15 +1,6 @@
-
 const fs = require('fs'),
       md2html = require('node-m2h');
       cl = require('node-cl-log');
-
-// const filesList = require('./orderFiles/ru');
-
-/*
-    TODO:
-      * в генерированный html файл сохранить utf только для русского и англиского.
-*/
-
 /*
   @description Модуль для сборки файлов для создания модулей на разных языках, в зависимости от переданной генератору конфигурации
   в качестве аргумента.
@@ -21,6 +12,7 @@ const fs = require('fs'),
   @property { string } pathBuildMd - файл для презентации внешнего вида документов и их последовательности в формате *.md
   @property { string } pathBuildHtml - файл для презентации  внешнего вида документов и их последовательности в формате *.html
   @property { string } pathBuildReadme - окончательный README файл проекта с внесенными вами правками в шаблоны документов в дирректории "docs/".
+  @property { string } pathFileListOrder - порядок очереди шаблонов документов для readme и html файлов
   @see lang_modules/{ru.js or en.js or others language}
 */
 
@@ -43,19 +35,20 @@ class Gen {
   */
   genDocs() {
     const source = this.pathSrcSource,
-      docs = this.pathSrcDocs;
+          docs = this.pathSrcDocs;
 
     fs.readdir(source, function (err, items) {
       // cl.log(items);
       items.forEach(file => {
         fs.copyFileSync(source + file, docs + file, (err) => {
-          if (err) throw err;
-          //if (!err) cl.gre(`${file} was copied `);
+          if (err) cl.red(`File ${file} not copied `);
+          if (!err) cl.gre(`${file} was copied `);
         });
       }); // end forEach
     });
-    cl.gre('end genDocs')
+    cl.gre(`End geneneration the templates on directory ${docs}`)
   } // end genDocs
+
   /*
     @description Генерация наглядного примера из каких шаблонов документов, в какой последовательности
     будет сгенерирован файл README в формате *.html.
@@ -84,7 +77,6 @@ class Gen {
           if (err) {
             cl.log(err);
           } else {
-            // cl.log(data); // содержимое файла
             fs.open(buildMd, "w+", function (err, fileHandle) {
               if (!err) {
                 fs.appendFile(buildMd, data, function (err) {
@@ -96,7 +88,7 @@ class Gen {
                   title: 'Example README file'
                 });
               } else {
-                cl.log("Произошла ошибка при создании");
+                cl.log('An error occurred while creating');
               }
             });
           };
@@ -118,38 +110,57 @@ class Gen {
       buildReadme = this.pathBuildReadme,
       filesList = this.filesList;
 
+    const languageFileList = require(filesList);
+
+
     fs.readdir(srcDocs, function (err, items) {
       // create new array with elements in the necessary order
-      filesList.forEach(el => {
-        readmeArr.push(items[items.indexOf(el)])
-      });
-      // cl.log(readmeArr);
-      // cl.log(' архив с файлами по очереди заполнен')
-
-
-      readmeArr.forEach(el => {
-        // cl.log(' работа с архивом ')
-
-        fs.readFileSync(srcDocs + el, function (err, data) {
-          if (err) {
-            cl.log(err);
-          }
-          else {
-            // cl.log(data); // содержимое файла
-            fs.open(buildReadme, "w+", function (err, fileHandle) {
-              if (!err) {
-                fs.appendFile(buildReadme, data, function (err) {
-                  if (err) throw err;
-                });
-              } else {
-                cl.red("Произошла ошибка при создании");
-              };
-            });
-          };
+        languageFileList.forEach(el => {
+          readmeArr.push(items[items.indexOf(el)])
         });
-      });
-    });
-  } // end genReadme
+
+        // cl.log('Files that will appear in the README file, in the order of the queue:');
+        // cl.log(readmeArr)
+
+        readmeArr.forEach(templateFile => {
+          // cl.log('Getting started work with an array of files');
+          // cl.log(srcDocs + templateFile)
+          // cl.log();
+          fs.open(buildReadme, "w+", function (err, fileHandle) {
+            if (!err) {
+              fs.appendFile(buildReadme, fs.readFileSync(srcDocs + templateFile, 'utf8') , function (err) {
+                if (err) cl.red(`File ${srcDocs + templateFile} was not found!`)
+              });
+            } else {
+                cl.red(`There was an error creating ${buildReadme}`);
+              };
+          });
+        });
+      }); // end  fs.readdir
+  }; // end genReadme
 }; // end class Gen
 
 module.exports = Gen;
+
+
+
+
+
+
+
+      // fs.readFileSync(srcDocs + templateFile, function (err, data) {
+      //   if (err) cl.red(`File ${srcDocs + templateFile} was not found!`)
+
+      //   // else {
+      //   //   // cl.log(data); // содержимое файла
+      //     // fs.open(buildReadme, "w+", function (err, fileHandle) {
+      //     //   if (!err) {
+      //     //     fs.appendFile(buildReadme, data, function (err) {
+      //     //       if (err) cl.red(`File ${srcDocs + templateFile} was not found!`)
+      //     //     });
+      //     //   } else {
+      //     //       cl.red(`There was an error creating ${buildReadme}`);
+      //     //     };
+      //     //   });
+      //     // };
+      //   });

@@ -1,5 +1,5 @@
 /*
-  Порядок файлов для сборки файла README
+   The order of the files to build the README file
 */
  const filesNameListRu = [
   'logo[RU].md',

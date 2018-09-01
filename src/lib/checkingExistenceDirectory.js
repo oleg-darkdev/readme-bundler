@@ -2,9 +2,10 @@ const cl = require('node-cl-log'),
       fs = require('fs');
 
 
-// проверка наличия дирректории необходимого языкового модуля
+// check for the presence of the necessary language module
 function checkingExistenceDirectory (pathDocsDir) {
-  let dirLanguageModuleFounded = false;
+  let dirLanguageModuleFounded = false,
+      language = '';
 
   fs.readdir(pathDocsDir, function (err, items) {
     items.forEach((el, ind) => {
@@ -13,7 +14,7 @@ function checkingExistenceDirectory (pathDocsDir) {
   });
   if (dirLanguageModuleFounded != false) {
     fs.mkdirSync(`${pathDocsDir + language.toUpperCase()}`);
-    // cl.whi('create dir')
+    // cl.log('create dir')
   };
 };
 

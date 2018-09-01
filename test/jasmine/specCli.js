@@ -1,6 +1,6 @@
 const sys = require('sys'),
-  exec = require('child_process').exec,
-  fs = require('extfs');
+  exec = require('child_process').exec;
+  // fs = require('extfs');
 const path = require('../../src/lib/path');
 
 function puts(error, stdout, stderr) { sys.puts(stdout) }

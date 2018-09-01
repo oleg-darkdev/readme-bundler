@@ -1,7 +1,7 @@
 /*
-  Файлы для зборкi README збiраюцца па нуступнай чарзе
+   The order of the files to build the README file
 */
- const filesNameListBy = [
+const filesNameListBy = [
   'logo[BY].md',
   'introduction[BY].md',
   'navigation[BY].md',

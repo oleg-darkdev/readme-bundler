@@ -1,3 +1,7 @@
+/**
+ * @description Help for outputting the available keys to the console for transmission by the first argument
+ */
+
 const genTypesParams = {
   description: 'Первым аргументом идет тип генерируемоого файла, полный список:',
   docs: '-d               Генерирование исходных шаблонов для документации в \nдирректорию docs необходимого языка',
