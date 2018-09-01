@@ -26,11 +26,11 @@ const path = {
         en: './src/data/EN/description/'
       },
       order: {
-        ru: './src/lib/orderFiles/ru.js',
-        by: './src/lib/orderFiles/by.js',
-        ua: './src/lib/orderFiles/ua.js',
-        pl: './src/lib/orderFiles/pl.js',
-        en: './src/lib/orderFiles/en.js'
+        ru: './order_files/ru.js',
+        by: './order_files/by.js',
+        ua: './order_files/ua.js',
+        pl: './order_files/pl.js',
+        en: './order_files/en.js'
       },
       docs: {
         ru: './docs/RU/',
@@ -43,9 +43,9 @@ const path = {
         dir: './src/lib/lang_modules/',
         ru: './src/lib/lang_modules/ru.js',
         by: './src/lib/lang_modules/by.js',
-        ua: './src/lib/lang_modules/ua',
-        pl: './src/lib/lang_modules/pl',
-        en: './src/lib/lang_modules/en'
+        ua: './src/lib/lang_modules/ua.js',
+        pl: './src/lib/lang_modules/pl.js',
+        en: './src/lib/lang_modules/en.js'
       }
   },
   build: {
