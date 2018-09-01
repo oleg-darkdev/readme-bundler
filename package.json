@@ -21,8 +21,6 @@
     "html:ua": "node ./index.js -h -ua",
     "html:pl": "node ./index.js -h -pl",
     "doc:": "node ./index.js -d ",
-    "doc:": "node ./index.js -d ",
-    "doc:": "node ./index.js -d ",
     "test:j": "gulp test:jasmine",
     "test:m": "gulp test:mocha",
     "test:u": "gulp test:unit",
