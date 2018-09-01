@@ -12,7 +12,8 @@ const filesListRu = require( '../orderFiles/ru');
   @property { string } pathBuildMd - файл для презентации внешнего вида документов и их последовательности в формате *.md
   @property { string } pathBuildHtml - файл для презентации  внешнего вида документов и их последовательности в формате *.html
   @property { string } pathBuildReadme - окончательный README файл проекта с внесенными вами правками в шаблоны документов в дирректории "docs/" текущего языкового модуля
-*/
+  @property { string } pathFileListOrder - файл в котором указан порядок сборки файлов для readme и html файлов
+  */
 const pathConfig = [
   path.src.source.ru,
   path.src.docs.ru,
@@ -20,7 +21,8 @@ const pathConfig = [
   path.src.order.ru,
   path.build.md.ru,
   path.build.html.ru,
-  path.build.readme.ru
+  path.build.readme.ru,
+  path.src.order.ru
 ];
 
 const langModule = new Gen(pathConfig);

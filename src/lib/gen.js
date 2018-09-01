@@ -1,9 +1,9 @@
 
 const fs = require('fs'),
-  md2html = require('node-m2h');
-  cl = require('node-cl-log');
+      md2html = require('node-m2h');
+      cl = require('node-cl-log');
 
-const filesListRu = require('./orderFiles/ru');
+// const filesList = require('./orderFiles/ru');
 
 /*
     TODO:
@@ -33,6 +33,7 @@ class Gen {
     this.pathBuildMd = arrayPaths[4];
     this.pathBuildHtml = arrayPaths[5];
     this.pathBuildReadme = arrayPaths[6];
+    this.filesList = arrayPaths[7];
   }
   /*
     @description Обновление файлов до актуально версии в директорию docs
@@ -61,18 +62,20 @@ class Gen {
     @property { string } sourceMan - путь к файлам описания шаблонов документов
     @property { string } htmlArr - массив эл-тов в нужном порядке для бандла
     @property { string } buildMd - путь к файлу бандла документов в формате "*.md"
-    @property { string } buildHtml - путь к файлу презентации внешнего вида документов в формате "*.html"
+    @property { string } buildHtml - путь к файлу презентации внешнего вида документов в формате
+    @property { string } pathFileListOrder - файл в котором указан порядок сборки файлов для "*.html"
     @returns файл-бандл в формате "*.html" с подключенными стилями для текущего языкового модуля из конфигурации
   */
   genHtml() {
     const sourceMan = this.pathSrcMan,
       htmlArr = [],
       buildMd = this.pathBuildMd,
-      buildHtml = this.pathBuildHtml;
+      buildHtml = this.pathBuildHtml,
+      filesList = this.filesList;
 
     fs.readdir(sourceMan, function (err, items) {
       // create new array with elements in the necessary order
-      filesListRu.forEach(el => {
+      filesList.forEach(el => {
         htmlArr.push(items[items.indexOf(el)])
       });
       // cl.log(htmlArr);
@@ -106,16 +109,18 @@ class Gen {
     @property { string } readmeArr - массив эл-тов в нужном порядке для бандла
     @property { string } srcDocs - путь куда будут синхронизированы шаблоны документов ( дирректория "docs/")
     @property { string } buildReadme - путь к главному файлу документации формате "*.md" ( бандлу всех документов из директории "docs/")
+   @property { string } pathFileListOrder - файл в котором указан порядок сборки файлов для readme
     @returns файл-бандл в формате "*.md" для текущего языкового модуля из конфигурации
   */
   genReadme() {
     const readmeArr = [],
       srcDocs = this.pathSrcDocs,
-      buildReadme = this.pathBuildReadme;
+      buildReadme = this.pathBuildReadme,
+      filesList = this.filesList;
 
     fs.readdir(srcDocs, function (err, items) {
       // create new array with elements in the necessary order
-      filesListRu.forEach(el => {
+      filesList.forEach(el => {
         readmeArr.push(items[items.indexOf(el)])
       });
       // cl.log(readmeArr);

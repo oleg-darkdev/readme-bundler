@@ -33,11 +33,19 @@ const path = {
         en: './src/lib/orderFiles/en.js'
       },
       docs: {
-        ru: './docs/',
+        ru: './docs/RU/',
         by:'./docs/BY/',
         ua: './docs/UA/',
         pl: './docs/PL/',
         en: './docs/EN/'
+      },
+      langModules: {
+        dir: './src/lib/lang_modules/',
+        ru: './src/lib/lang_modules/ru.js',
+        by: './src/lib/lang_modules/by.js',
+        ua: './src/lib/lang_modules/ua',
+        pl: './src/lib/lang_modules/pl',
+        en: './src/lib/lang_modules/en'
       }
   },
   build: {
@@ -56,6 +64,7 @@ const path = {
         en: './docs/description[EN].html'
       },
       md: {
+        dir: './docs/',
         ru: './docs/description[RU].md',
         by: './docs/description[BY].md',
         ua: './docs/description[UA].md',

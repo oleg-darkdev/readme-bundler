@@ -12,6 +12,7 @@ const filesListUa = require( '../orderFiles/ua');
   @property { string } pathBuildMd - файл для презентации внешнего вида документов и их последовательности в формате *.md
   @property { string } pathBuildHtml - файл для презентации  внешнего вида документов и их последовательности в формате *.html
   @property { string } pathBuildReadme - окончательный README файл проекта с внесенными вами правками в шаблоны документов в дирректории "docs/" текущего языкового модуля
+  @property { string } pathFileListOrder - файл в котором указан порядок сборки файлов для readme и html файлов
 */
 const pathConfig = [
   path.src.source.ua,
@@ -20,7 +21,8 @@ const pathConfig = [
   path.src.order.ua,
   path.build.md.ua,
   path.build.html.ua,
-  path.build.readme.ua
+  path.build.readme.ua,
+  path.src.order.ua
 ];
 
 const langModule = new Gen(pathConfig);
