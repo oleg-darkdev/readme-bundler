@@ -1,34 +1,22 @@
-/*
-  @description Модуль для сборки файлов для создания модулей на разных языках.
-*/
 const fs = require('fs'),
-  md2html = require('node-m2h');
-  cl = require('node-cl-log');
-
-const filesListRu = require('./orderFiles/ru');
-
-/* const paths = require('./path'),
-      filesListRu = require(paths.src.order.ru); */
+      md2html = require('node-m2h');
+      cl = require('node-cl-log');
 /*
-    TODO:
-      * в генерированный html файл сохранить utf только для русского и англиского.
+  @description Модуль для сборки файлов для создания модулей на разных языках, в зависимости от переданной генератору конфигурации
+  в качестве аргумента.
+  @param { array } arrayPaths -  массив в виде конфигурации для настройки языкового модуля.
+  @property { string } pathSrcSource - исходные шаблоны документов
+  @property { string } pathSrcDocs - путь куда будут синхронизированы шаблоны документов
+  @property { string } pathSrcMan - описание шаблонов документов (их назначения, функций, особенностей)
+  @property { string } pathOrderFiles - порядок файлов для сборки файла README
+  @property { string } pathBuildMd - файл для презентации внешнего вида документов и их последовательности в формате *.md
+  @property { string } pathBuildHtml - файл для презентации  внешнего вида документов и их последовательности в формате *.html
+  @property { string } pathBuildReadme - окончательный README файл проекта с внесенными вами правками в шаблоны документов в дирректории "docs/".
+  @property { string } pathFileListOrder - порядок очереди шаблонов документов для readme и html файлов
+  @see lang_modules/{ru.js or en.js or others language}
 */
 
-
-
-
-/*
-  @description
-  @param { pathSrcSource } - исходный код блоков библиотеки
-  @param { pathSrcDocs } - путь куда они будут синхронизированы
-  @param { pathSrcMan } - описание назначения исходных блоков библиотеки
-  @param { pathOrderFiles } - порядок файлов для сборки файла README
-  @param { pathBuildMd } - файл для презентации блоков и их последовательности в формате *.md
-  @param { pathBuildHtml } - файл для презентации блоков и их последовательности в формате *.html
-  @param { pathBuildReadme } - окончательный README файл проекта с внесенными вами правками в блоки.
-*/
 class Gen {
-  // constructor(pathSrcSource, pathSrcDocs, pathSrcMan, pathSrcOrder, pathBuildMd, pathBuildHtml, pathBuildReadme) {
   constructor(arrayPaths) {
     this.pathSrcSource = arrayPaths[0];
     this.pathSrcDocs = arrayPaths[1];
@@ -37,38 +25,50 @@ class Gen {
     this.pathBuildMd = arrayPaths[4];
     this.pathBuildHtml = arrayPaths[5];
     this.pathBuildReadme = arrayPaths[6];
+    this.filesList = arrayPaths[7];
   }
   /*
     @description Обновление файлов до актуально версии в директорию docs
+    @property { string } source - откуда будут взяты исходные шаблоны документов
+    @property { string } docs - путь куда будут синхронизированы шаблоны документов
+    @returns копирует исходные шаблоны документов в дирректорию docs/ + выбранный языковой модуль
   */
   genDocs() {
     const source = this.pathSrcSource,
-      docs = this.pathSrcDocs;
+          docs = this.pathSrcDocs;
 
     fs.readdir(source, function (err, items) {
       // cl.log(items);
       items.forEach(file => {
         fs.copyFileSync(source + file, docs + file, (err) => {
-          if (err) throw err;
-          //if (!err) cl.gre(`${file} was copied `);
+          if (err) cl.red(`File ${file} not copied `);
+          if (!err) cl.gre(`${file} was copied `);
         });
       }); // end forEach
     });
-    cl.gre('end genDocs')
+    cl.gre(`End geneneration the templates on directory ${docs}`)
   } // end genDocs
+
   /*
-    @description Генерация наглядного примера из каких блоков, в какой последовательности
+    @description Генерация наглядного примера из каких шаблонов документов, в какой последовательности
     будет сгенерирован файл README в формате *.html.
+    @property { string } sourceMan - путь к файлам описания шаблонов документов
+    @property { string } htmlArr - массив эл-тов в нужном порядке для бандла
+    @property { string } buildMd - путь к файлу бандла документов в формате "*.md"
+    @property { string } buildHtml - путь к файлу презентации внешнего вида документов в формате
+    @property { string } pathFileListOrder - файл в котором указан порядок сборки файлов для "*.html"
+    @returns файл-бандл в формате "*.html" с подключенными стилями для текущего языкового модуля из конфигурации
   */
   genHtml() {
     const sourceMan = this.pathSrcMan,
       htmlArr = [],
       buildMd = this.pathBuildMd,
-      buildHtml = this.pathBuildHtml;
+      buildHtml = this.pathBuildHtml,
+      filesList = this.filesList;
 
     fs.readdir(sourceMan, function (err, items) {
       // create new array with elements in the necessary order
-      filesListRu.forEach(el => {
+      filesList.forEach(el => {
         htmlArr.push(items[items.indexOf(el)])
       });
       // cl.log(htmlArr);
@@ -77,7 +77,6 @@ class Gen {
           if (err) {
             cl.log(err);
           } else {
-            // cl.log(data); // содержимое файла
             fs.open(buildMd, "w+", function (err, fileHandle) {
               if (!err) {
                 fs.appendFile(buildMd, data, function (err) {
@@ -89,7 +88,7 @@ class Gen {
                   title: 'Example README file'
                 });
               } else {
-                cl.log("Произошла ошибка при создании");
+                cl.log('An error occurred while creating');
               }
             });
           };
@@ -97,47 +96,71 @@ class Gen {
       });
     });
   } // end genHtml
-  //
   /*
     @description Обновление файла README
+    @property { string } readmeArr - массив эл-тов в нужном порядке для бандла
+    @property { string } srcDocs - путь куда будут синхронизированы шаблоны документов ( дирректория "docs/")
+    @property { string } buildReadme - путь к главному файлу документации формате "*.md" ( бандлу всех документов из директории "docs/")
+   @property { string } pathFileListOrder - файл в котором указан порядок сборки файлов для readme
+    @returns файл-бандл в формате "*.md" для текущего языкового модуля из конфигурации
   */
   genReadme() {
     const readmeArr = [],
       srcDocs = this.pathSrcDocs,
-      buildReadme = this.pathBuildReadme;
+      buildReadme = this.pathBuildReadme,
+      filesList = this.filesList;
+
+    const languageFileList = require(filesList);
+
 
     fs.readdir(srcDocs, function (err, items) {
       // create new array with elements in the necessary order
-      filesListRu.forEach(el => {
-        readmeArr.push(items[items.indexOf(el)])
-      });
-      // cl.log(readmeArr);
-      // cl.log(' архив с файлами по очереди заполнен')
-
-
-      readmeArr.forEach(el => {
-        // cl.log(' работа с архивом ')
-
-        fs.readFileSync(srcDocs + el, function (err, data) {
-          if (err) {
-            cl.log(err);
-          }
-          else {
-            // cl.log(data); // содержимое файла
-            fs.open(buildReadme, "w+", function (err, fileHandle) {
-              if (!err) {
-                fs.appendFile(buildReadme, data, function (err) {
-                  if (err) throw err;
-                });
-              } else {
-                cl.red("Произошла ошибка при создании");
-              };
-            });
-          };
+        languageFileList.forEach(el => {
+          readmeArr.push(items[items.indexOf(el)])
         });
-      });
-    });
-  } // end genReadme
+
+        // cl.log('Files that will appear in the README file, in the order of the queue:');
+        // cl.log(readmeArr)
+
+        readmeArr.forEach(templateFile => {
+          // cl.log('Getting started work with an array of files');
+          // cl.log(srcDocs + templateFile)
+          // cl.log();
+          fs.open(buildReadme, "w+", function (err, fileHandle) {
+            if (!err) {
+              fs.appendFile(buildReadme, fs.readFileSync(srcDocs + templateFile, 'utf8') , function (err) {
+                if (err) cl.red(`File ${srcDocs + templateFile} was not found!`)
+              });
+            } else {
+                cl.red(`There was an error creating ${buildReadme}`);
+              };
+          });
+        });
+      }); // end  fs.readdir
+  }; // end genReadme
 }; // end class Gen
 
 module.exports = Gen;
+
+
+
+
+
+
+
+      // fs.readFileSync(srcDocs + templateFile, function (err, data) {
+      //   if (err) cl.red(`File ${srcDocs + templateFile} was not found!`)
+
+      //   // else {
+      //   //   // cl.log(data); // содержимое файла
+      //     // fs.open(buildReadme, "w+", function (err, fileHandle) {
+      //     //   if (!err) {
+      //     //     fs.appendFile(buildReadme, data, function (err) {
+      //     //       if (err) cl.red(`File ${srcDocs + templateFile} was not found!`)
+      //     //     });
+      //     //   } else {
+      //     //       cl.red(`There was an error creating ${buildReadme}`);
+      //     //     };
+      //     //   });
+      //     // };
+      //   });
