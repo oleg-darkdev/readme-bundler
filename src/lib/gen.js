@@ -28,6 +28,60 @@ class Gen {
     this.filesList = arrayPaths[7];
   }
   /*
+    @description Очистка дирректории docs/langModule от шаблонов формата *.md
+    @property { string } pathDirClean  - дирректория в которой будут находиться файлы
+  */
+  cleanMd() {
+    const pathDirClean = this.pathSrcDocs;
+
+    if (fs.existsSync(pathDirClean)) {
+      fs.readdirSync(pathDirClean).forEach(function (file, index) {
+        let curPath = pathDirClean + "/" + file;
+        if (fs.lstatSync(curPath).isDirectory()) {
+          deleteFolderRecursive(curPath);
+        } else {
+          fs.unlinkSync(curPath);
+        }
+      });
+    };
+  }
+  /*
+    @description Удаление файла README[..].md лежащего в корне проекта
+    @property { string } pathDirClean  - дирректория в которой будет находиться искомый файл
+  */
+  cleanReadme() {
+    const pathDirClean = this.pathBuildReadme;
+
+    if (fs.existsSync(pathDirClean)) {
+      fs.readdirSync(pathDirClean).forEach(function (file, index) {
+        let curPath = pathDirClean + "/" + file;
+        if (fs.lstatSync(curPath).isDirectory()) {
+          deleteFolderRecursive(curPath);
+        } else {
+          fs.unlinkSync(curPath);
+        }
+      });
+    };
+  }
+  /*
+    @description Удаление файла описание в формате description[..].html в директории docs
+    @property { string } pathDirClean  - дирректория в которой будет находиться искомый файл
+  */
+  cleanHtml() {
+    const pathDirClean = this.pathBuildHtml;
+
+    if (fs.existsSync(pathDirClean)) {
+      fs.readdirSync(pathDirClean).forEach(function (file, index) {
+        let curPath = pathDirClean + "/" + file;
+        if (fs.lstatSync(curPath).isDirectory()) {
+          deleteFolderRecursive(curPath);
+        } else {
+          fs.unlinkSync(curPath);
+        }
+      });
+    };
+  }
+  /*
     @description Обновление файлов до актуально версии в директорию docs
     @property { string } source - откуда будут взяты исходные шаблоны документов
     @property { string } docs - путь куда будут синхронизированы шаблоны документов
@@ -101,7 +155,7 @@ class Gen {
     @property { string } readmeArr - массив эл-тов в нужном порядке для бандла
     @property { string } srcDocs - путь куда будут синхронизированы шаблоны документов ( дирректория "docs/")
     @property { string } buildReadme - путь к главному файлу документации формате "*.md" ( бандлу всех документов из директории "docs/")
-   @property { string } pathFileListOrder - файл в котором указан порядок сборки файлов для readme
+    @property { string } pathFileListOrder - файл в котором указан порядок сборки файлов для readme
     @returns файл-бандл в формате "*.md" для текущего языкового модуля из конфигурации
   */
   genReadme() {
@@ -141,26 +195,3 @@ class Gen {
 }; // end class Gen
 
 module.exports = Gen;
-
-
-
-
-
-
-
-      // fs.readFileSync(srcDocs + templateFile, function (err, data) {
-      //   if (err) cl.red(`File ${srcDocs + templateFile} was not found!`)
-
-      //   // else {
-      //   //   // cl.log(data); // содержимое файла
-      //     // fs.open(buildReadme, "w+", function (err, fileHandle) {
-      //     //   if (!err) {
-      //     //     fs.appendFile(buildReadme, data, function (err) {
-      //     //       if (err) cl.red(`File ${srcDocs + templateFile} was not found!`)
-      //     //     });
-      //     //   } else {
-      //     //       cl.red(`There was an error creating ${buildReadme}`);
-      //     //     };
-      //     //   });
-      //     // };
-      //   });

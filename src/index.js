@@ -61,6 +61,15 @@ if (process.argv.length <= minArguments) {
       } else if (generationType == '-r') {
         // cl.gre('Generate the readme file');
         languageModule.genReadme();
+      } else if (generationType == '-cm') {
+        // cl.gre('Generate the readme file');
+        languageModule.cleanMd();
+      } else if (generationType == '-cr') {
+        // cl.gre('Generate the readme file');
+        languageModule.cleanReadme();
+      } else if (generationType == '-ch') {
+        // cl.gre('Generate the readme file');
+        languageModule.cleanHtml();
       } else if (generationType == '-h') {
         // cl.gre('Generate the readme file');
         languageModule.genHtml();
