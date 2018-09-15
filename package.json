@@ -1,5 +1,5 @@
 {
-  "name": "readmeDoc",
+  "name": "readme-bundler",
   "version": "1.0.3",
   "main": "index.js",
   "scripts": {
